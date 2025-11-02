@@ -111,14 +111,14 @@
         </form>
 
         <!-- Demo Accounts -->
-        <div class="mt-8 p-4 bg-blue-50 rounded-lg">
+        {{-- <div class="mt-8 p-4 bg-blue-50 rounded-lg">
             <h3 class="text-sm font-medium text-blue-800 mb-2">Demo Accounts:</h3>
             <div class="text-xs text-blue-700 space-y-1">
                 <div>Admin: admin@produkkaleng.com</div>
                 <div>User: test@example.com</div>
                 <div>Password: password</div>
             </div>
-        </div>
+        </div> --}}
     </div>
 </div>
 

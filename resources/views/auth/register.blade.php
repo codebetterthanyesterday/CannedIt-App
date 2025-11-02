@@ -123,7 +123,7 @@
         </form>
 
         <!-- Benefits -->
-        <div class="mt-8 p-4 bg-primary-50 rounded-lg">
+        {{-- <div class="mt-8 p-4 bg-primary-50 rounded-lg">
             <h3 class="text-sm font-medium text-primary-800 mb-3">Keuntungan Bergabung:</h3>
             <ul class="text-xs text-primary-700 space-y-1">
                 <li class="flex items-center space-x-2">
@@ -143,7 +143,7 @@
                     <span>Simpan alamat pengiriman</span>
                 </li>
             </ul>
-        </div>
+        </div> --}}
     </div>
 </div>
 
