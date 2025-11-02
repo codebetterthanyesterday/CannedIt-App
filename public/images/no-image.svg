@@ -1,0 +1,14 @@
+<svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="400" fill="#f3f4f6"/>
+  <g transform="translate(200, 200)">
+    <!-- Box icon -->
+    <path d="M -40 -50 L 0 -70 L 40 -50 L 40 10 L 0 30 L -40 10 Z" 
+          fill="none" stroke="#9ca3af" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M -40 -50 L 0 -30 L 40 -50" 
+          fill="none" stroke="#9ca3af" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M 0 -30 L 0 30" 
+          fill="none" stroke="#9ca3af" stroke-width="3"/>
+  </g>
+  <text x="200" y="280" font-family="Arial, sans-serif" font-size="18" 
+        fill="#6b7280" text-anchor="middle">No Image Available</text>
+</svg>
