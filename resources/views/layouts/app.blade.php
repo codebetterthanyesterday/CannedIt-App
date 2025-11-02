@@ -112,7 +112,7 @@
                         @if(!Auth::check() || !Auth::user()->is_admin)
                         <a href="{{ route('cart.index') }}" class="relative text-gray-700 hover:text-primary-600 p-2">
                             <i class="fas fa-shopping-cart text-xl"></i>
-                            <span id="cart-count" class="hidden absolute -top-1 -right-1 bg-primary-600 text-white text-xs rounded-full h-5 w-5 items-center justify-center">0</span>
+                            <span id="cart-count" class="hidden absolute -top-1 -right-1 bg-primary-600 text-white text-xs rounded-full h-5 w-5 place-items-center">0</span>
                         </a>
                         @endif
 
@@ -121,7 +121,7 @@
                         @if(!Auth::user()->is_admin)
                         <a href="{{ route('wishlist.index') }}" class="relative text-gray-700 hover:text-primary-600 p-2">
                             <i class="fas fa-heart text-xl"></i>
-                            <span id="wishlist-count" class="hidden absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 items-center justify-center">0</span>
+                            <span id="wishlist-count" class="hidden absolute place-items-center -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5">0</span>
                         </a>
                         @endif
                         @endauth
@@ -313,10 +313,10 @@
                     // Show/hide badge based on count
                     if (count > 0) {
                         cartCountElement.classList.remove('hidden');
-                        cartCountElement.classList.add('flex');
+                        cartCountElement.classList.add('grid');
                     } else {
                         cartCountElement.classList.add('hidden');
-                        cartCountElement.classList.remove('flex');
+                        cartCountElement.classList.remove('grid');
                     }
                 })
                 .catch(error => console.error('Error:', error));
@@ -335,10 +335,10 @@
                     // Show/hide badge based on count
                     if (count > 0) {
                         wishlistCount.classList.remove('hidden');
-                        wishlistCount.classList.add('flex');
+                        wishlistCount.classList.add('grid');
                     } else {
                         wishlistCount.classList.add('hidden');
-                        wishlistCount.classList.remove('flex');
+                        wishlistCount.classList.remove('grid');
                     }
                 })
                 .catch(error => console.error('Error:', error));

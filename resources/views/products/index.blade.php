@@ -174,17 +174,22 @@
                                 </span>
                             @endif
                             
-                            @auth
                             <!-- Wishlist Button -->
+                            @if(Auth::check() && !Auth::user()->is_admin)
                             <button onclick="toggleWishlist({{ $product->id }}, event)" 
                                     class="wishlist-toggle absolute top-2 right-2 bg-white rounded-full p-2 shadow-md hover:bg-red-50 transition-colors z-10"
                                     data-product-id="{{ $product->id }}">
                                 <i class="far fa-heart text-gray-600 hover:text-red-500"></i>
                             </button>
-                            @endauth
+                            @elseif(!Auth::check())
+                            <button onclick="promptLogin({{ $product->id }}, 'wishlist')" 
+                                    class="wishlist-toggle absolute top-2 right-2 bg-white rounded-full p-2 shadow-md hover:bg-red-50 transition-colors z-10">
+                                <i class="far fa-heart text-gray-600 hover:text-red-500"></i>
+                            </button>
+                            @endif
                             
                             @if($product->is_featured)
-                                <span class="absolute {{ auth()->check() ? 'top-12' : 'top-2' }} right-2 bg-yellow-500 text-white px-2 py-1 text-xs font-semibold rounded">
+                                <span class="absolute {{ auth()->check() && !auth()->user()->is_admin ? 'top-12' : 'top-2' }} right-2 bg-yellow-500 text-white px-2 py-1 text-xs font-semibold rounded">
                                     <i class="fas fa-star"></i>
                                 </span>
                             @endif
@@ -238,11 +243,24 @@
 
                             <!-- Add to Cart Button -->
                             @if($product->stock_quantity)
+                                @if(Auth::check() && Auth::user()->is_admin)
+                                <button disabled class="w-full bg-gray-300 text-gray-500 py-2 px-4 rounded-md cursor-not-allowed flex items-center justify-center space-x-2">
+                                    <i class="fas fa-user-shield"></i>
+                                    <span>Fitur untuk Customer</span>
+                                </button>
+                                @elseif(Auth::check())
                                 <button onclick="addToCart({{ $product->id }})" 
                                         class="w-full bg-primary-600 text-white py-2 px-4 rounded-md hover:bg-primary-700 transition-colors flex items-center justify-center space-x-2">
                                     <i class="fas fa-cart-plus"></i>
                                     <span>Tambah ke Keranjang</span>
                                 </button>
+                                @else
+                                <button onclick="promptLogin({{ $product->id }}, 'cart')" 
+                                        class="w-full bg-primary-600 text-white py-2 px-4 rounded-md hover:bg-primary-700 transition-colors flex items-center justify-center space-x-2">
+                                    <i class="fas fa-cart-plus"></i>
+                                    <span>Tambah ke Keranjang</span>
+                                </button>
+                                @endif
                             @else
                                 <button disabled class="w-full bg-gray-300 text-gray-500 py-2 px-4 rounded-md cursor-not-allowed">
                                     <i class="fas fa-times mr-2"></i>
@@ -441,6 +459,33 @@ function addToCart(productId) {
     .catch(error => {
         console.error('Error:', error);
         showNotification('error', 'Terjadi kesalahan saat menambahkan produk ke keranjang');
+    });
+}
+
+function promptLogin(productId, action) {
+    let message = '';
+    switch(action) {
+        case 'cart':
+            message = 'Silakan login terlebih dahulu untuk menambahkan produk ke keranjang';
+            break;
+        case 'wishlist':
+            message = 'Silakan login terlebih dahulu untuk menambahkan produk ke wishlist';
+            break;
+    }
+    
+    Swal.fire({
+        title: 'Login Required',
+        text: message,
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonText: 'Login',
+        cancelButtonText: 'Batal',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = '{{ route("login") }}?redirect=' + encodeURIComponent(window.location.pathname);
+        }
     });
 }
 </script>

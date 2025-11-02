@@ -160,11 +160,16 @@
                 </div>
 
                 <div class="flex space-x-4">
+                    @if(Auth::check() && Auth::user()->is_admin)
+                    <button disabled class="flex-1 bg-gray-300 text-gray-500 py-3 px-6 rounded-md cursor-not-allowed flex items-center justify-center space-x-2">
+                        <i class="fas fa-user-shield"></i>
+                        <span>Fitur untuk Customer</span>
+                    </button>
+                    @elseif(Auth::check())
                     <button onclick="addToCart()" class="flex-1 bg-primary-600 text-white py-3 px-6 rounded-md hover:bg-primary-700 transition-colors flex items-center justify-center space-x-2">
                         <i class="fas fa-cart-plus"></i>
                         <span>Tambah ke Keranjang</span>
                     </button>
-                    @auth
                     <button onclick="buyNow()" class="flex-1 bg-green-600 text-white py-3 px-6 rounded-md hover:bg-green-700 transition-colors flex items-center justify-center space-x-2">
                         <i class="fas fa-bolt"></i>
                         <span>Beli Sekarang</span>
@@ -172,7 +177,19 @@
                     <button onclick="toggleWishlist()" id="wishlist-btn" class="bg-white border-2 border-gray-300 text-gray-700 py-3 px-6 rounded-md hover:border-red-500 hover:text-red-500 transition-colors flex items-center justify-center">
                         <i class="far fa-heart" id="wishlist-icon"></i>
                     </button>
-                    @endauth
+                    @else
+                    <button onclick="promptLogin('cart')" class="flex-1 bg-primary-600 text-white py-3 px-6 rounded-md hover:bg-primary-700 transition-colors flex items-center justify-center space-x-2">
+                        <i class="fas fa-cart-plus"></i>
+                        <span>Tambah ke Keranjang</span>
+                    </button>
+                    <button onclick="promptLogin('buy')" class="flex-1 bg-green-600 text-white py-3 px-6 rounded-md hover:bg-green-700 transition-colors flex items-center justify-center space-x-2">
+                        <i class="fas fa-bolt"></i>
+                        <span>Beli Sekarang</span>
+                    </button>
+                    <button onclick="promptLogin('wishlist')" class="bg-white border-2 border-gray-300 text-gray-700 py-3 px-6 rounded-md hover:border-red-500 hover:text-red-500 transition-colors flex items-center justify-center">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    @endif
                 </div>
             </div>
             @else
@@ -182,11 +199,15 @@
                         <i class="fas fa-times mr-2"></i>
                         Produk Tidak Tersedia
                     </button>
-                    @auth
+                    @if(Auth::check() && Auth::user()->role !== 'admin')
                     <button onclick="toggleWishlist()" id="wishlist-btn" class="bg-white border-2 border-gray-300 text-gray-700 py-3 px-6 rounded-md hover:border-red-500 hover:text-red-500 transition-colors flex items-center justify-center">
                         <i class="far fa-heart" id="wishlist-icon"></i>
                     </button>
-                    @endauth
+                    @elseif(!Auth::check())
+                    <button onclick="promptLogin('wishlist')" class="bg-white border-2 border-gray-300 text-gray-700 py-3 px-6 rounded-md hover:border-red-500 hover:text-red-500 transition-colors flex items-center justify-center">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    @endif
                 </div>
             </div>
             @endif
@@ -578,6 +599,36 @@ function showTab(tabName) {
     // Add active class to selected tab button
     event.target.classList.add('active', 'border-primary-500', 'text-primary-600');
     event.target.classList.remove('border-transparent', 'text-gray-500');
+}
+
+function promptLogin(action) {
+    let message = '';
+    switch(action) {
+        case 'cart':
+            message = 'Silakan login terlebih dahulu untuk menambahkan produk ke keranjang';
+            break;
+        case 'buy':
+            message = 'Silakan login terlebih dahulu untuk membeli produk';
+            break;
+        case 'wishlist':
+            message = 'Silakan login terlebih dahulu untuk menambahkan produk ke wishlist';
+            break;
+    }
+    
+    Swal.fire({
+        title: 'Login Required',
+        text: message,
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonText: 'Login',
+        cancelButtonText: 'Batal',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = '{{ route("login") }}?redirect=' + encodeURIComponent(window.location.pathname);
+        }
+    });
 }
 </script>
 @endpush
