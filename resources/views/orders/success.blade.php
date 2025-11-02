@@ -78,7 +78,7 @@
                     <div class="space-y-3">
                         @foreach($order->orderItems as $item)
                         <div class="flex items-center space-x-4 bg-gray-50 rounded-lg p-3">
-                            @if($item->product && $item->product->first_image && file_exists(public_path($item->product->first_image)))
+                            @if($item->product && $item->product->first_image)
                                 <img src="{{ asset($item->product->first_image) }}" 
                                      alt="{{ $item->product_name }}" 
                                      class="w-16 h-16 rounded object-cover">

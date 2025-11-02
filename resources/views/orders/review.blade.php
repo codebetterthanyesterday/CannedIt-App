@@ -60,7 +60,7 @@
                         <!-- Product Info -->
                         <div class="flex items-center space-x-4 mb-4">
                             <div class="shrink-0 w-20 h-20">
-                                @if($item->product && $item->product->first_image && file_exists(public_path($item->product->first_image)))
+                                @if($item->product && $item->product->first_image)
                                     <img class="w-20 h-20 rounded-lg object-cover border" 
                                          src="{{ asset($item->product->first_image) }}" 
                                          alt="{{ $item->product_name }}">
